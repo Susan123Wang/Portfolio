@@ -75,6 +75,12 @@
   /* INTRO */
   .intro {
     margin-bottom: 5rem;
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+  .intro-text {
+    flex: 1;
   }
   .intro h1 {
     font-family: var(--serif);
@@ -93,6 +99,18 @@
     color: var(--ink-soft);
     line-height: 1.7;
     max-width: 520px;
+  }
+  .intro-photo {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px) {
+    .intro { flex-direction: column; }
+    .intro-photo { width: 140px; height: 140px; }
   }
 
   /* SECTION */
@@ -231,8 +249,11 @@
 </nav>
 
 <div class="intro">
-  <h1>Designer, thinker, <em>life-long</em> learner.</h1>
-  <p>I'm a UX/Product designer based in Seattle. I care about the connection between people and technology, aiming to make it human and meaningful.</p>
+  <div class="intro-text">
+    <h1>Designer, thinker, <em>life-long</em> learner.</h1>
+    <p>I'm a UX/Product designer based in Seattle. I care about the connection between people and technology, aiming to make it human and meaningful.</p>
+  </div>
+  <img class="intro-photo" src="photo2.jpg" alt="Susan Wang">
 </div>
 
 <div class="section bio">
