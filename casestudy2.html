@@ -1,0 +1,1612 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case Study 2 — Susan Wang</title>
+<script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>
+<script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─── Design tokens ─────────────────────────────────────── */
+  :root {
+    --bg:        #0E0E10;
+    --surface:   #17171A;
+    --surface2:  #1F1F24;
+    --ink:       #F2F1EA;
+    --ink-soft:  #C9C7BF;
+    --mid:       #7A786F;
+    --accent:    #E8714A;
+    --accent2:   #5A9B6A;
+    --border:    rgba(242,241,234,.10);
+    --border-hi: rgba(242,241,234,.18);
+    --serif:     'Instrument Serif', Georgia, serif;
+    --sans:      'DM Sans', sans-serif;
+    --mono:      'DM Mono', monospace;
+    --radius:    6px;
+    --shadow-sm: 0 1px 4px rgba(0,0,0,.45);
+    --shadow-md: 0 4px 20px rgba(0,0,0,.55);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,.65);
+    --transition: 220ms ease;
+  }
+
+  /* ─── Reset ─────────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── Reading-progress bar ──────────────────────────────── */
+  #progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 0%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), #F4A07A);
+    z-index: 1000;
+    transition: width .1s linear;
+  }
+
+  /* ─── Layout ─────────────────────────────────────────────── */
+  body {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 2rem 8rem;
+  }
+
+  /* ─── NAV ────────────────────────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 0;
+    margin-bottom: 4rem;
+    background: rgba(14,14,16,.85);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border-bottom: 1px solid var(--border);
+    transition: border-color var(--transition);
+  }
+  nav.scrolled { border-bottom-color: var(--border-hi); }
+  .nav-name {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    letter-spacing: .01em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  .nav-links a:hover,
+  .nav-links a.active { color: var(--ink); }
+
+  /* ─── HERO ────────────────────────────────────────────────── */
+  .hero {
+    margin-bottom: 4.5rem;
+    animation: fadeUp .65s ease both;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2.25rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--mid);
+    margin-bottom: 5px;
+  }
+  .meta-value { font-size: 13px; font-weight: 500; }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    background: rgba(232,113,74,.15);
+    color: var(--accent);
+    border: 1px solid rgba(232,113,74,.25);
+    padding: 3px 10px;
+    border-radius: 20px;
+    letter-spacing: .04em;
+  }
+
+  .lede {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: var(--ink-soft);
+    max-width: 620px;
+    padding-left: 1.25rem;
+    border-left: 3px solid var(--accent);
+  }
+
+  h1 {
+    font-family: var(--serif);
+    font-size: clamp(1.9rem, 5vw, 3.3rem);
+    line-height: 1.1;
+    font-weight: 400;
+    margin-bottom: 1.75rem;
+    max-width: 740px;
+    color: var(--ink);
+  }
+
+  /* ─── SECTIONS ───────────────────────────────────────────── */
+  section {
+    margin-bottom: 5rem;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .55s ease, transform .55s ease;
+  }
+  section.visible { opacity: 1; transform: none; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: var(--accent);
+    margin-bottom: .75rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .section-label::after {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+    opacity: .5;
+  }
+  .subsection-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--ink-soft);
+    margin-bottom: .5rem;
+    display: flex;
+    align-items: center;
+    gap: .4rem;
+  }
+  .subsection-label::before {
+    content: '';
+    display: inline-block;
+    width: 10px;
+    height: 1px;
+    background: var(--ink-soft);
+    opacity: .4;
+  }
+
+  h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 1.4rem;
+    color: var(--ink);
+  }
+
+  h3 {
+    font-family: var(--sans);
+    font-size: .975rem;
+    font-weight: 600;
+    margin-bottom: .5rem;
+    margin-top: 1.75rem;
+    color: var(--ink);
+    letter-spacing: .01em;
+  }
+
+  p {
+    font-size: .975rem;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    margin-bottom: 1rem;
+  }
+  p strong { color: var(--ink); font-weight: 600; }
+
+  /* ─── PROCESS OVERVIEW (card layout) ───────────────────── */
+  .process-overview {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: start;
+    margin: 1.25rem 0 2rem;
+  }
+  .phase-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.4rem 1.5rem 1.5rem;
+    transition: border-color var(--transition), background var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+  .phase-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), transparent);
+  }
+  .phase-card:hover {
+    border-color: var(--border-hi);
+    background: var(--surface2);
+  }
+  .phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: .75rem;
+  }
+  .phase-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: .1em;
+  }
+  .phase-icon {
+    width: 28px;
+    height: 28px;
+    background: rgba(232,113,74,.12);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .phase-icon svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--accent);
+    stroke-width: 1.75;
+  }
+  .phase-title {
+    font-family: var(--sans);
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--ink);
+    background: var(--surface2);
+    border: 1px solid var(--border-hi);
+    border-radius: 20px;
+    padding: .35rem .9rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+  .phase-steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .phase-step-group {
+    margin-bottom: .55rem;
+  }
+  .phase-step-group:last-child { margin-bottom: 0; }
+  .step-label {
+    font-size: .82rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    display: block;
+    padding: .3rem .5rem .3rem .75rem;
+    border-left: 1.5px solid rgba(232,113,74,.35);
+    line-height: 1.45;
+  }
+  .sub-steps {
+    list-style: none;
+    margin: .3rem 0 .5rem .75rem;
+    padding: 0;
+    border-left: 1px solid var(--border);
+  }
+  .sub-steps li {
+    font-size: .77rem;
+    color: var(--mid);
+    padding: .15rem 0 .15rem .75rem;
+    position: relative;
+    line-height: 1.5;
+  }
+  .sub-steps li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .55em;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--mid);
+    opacity: .55;
+  }
+  .phase-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 .75rem;
+    margin-top: 2.6rem;
+    gap: 2px;
+  }
+  .connector-line {
+    width: 1px;
+    height: 18px;
+    background: linear-gradient(to bottom, transparent, var(--accent));
+    opacity: .45;
+  }
+  .connector-arrow {
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--accent);
+    opacity: .55;
+    transform: rotate(-90deg);
+  }
+
+  @media (max-width: 640px) {
+    .process-overview {
+      grid-template-columns: 1fr;
+    }
+    .phase-connector { display: none; }
+  }
+
+  /* ─── RESEARCH PANEL (light-theme wrapper) ──────────────── */
+  .research-panel {
+    background: #FAF9F6;
+    border-radius: 8px;
+    padding: 2rem 2.25rem 2.25rem;
+    margin: 1.75rem 0;
+    border: 1px solid rgba(0,0,0,.07);
+  }
+  .rp-eyebrow {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .14em;
+    color: #C9A84C;
+    margin-bottom: .5rem;
+  }
+  .rp-title {
+    font-family: var(--serif);
+    font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+    font-weight: 400;
+    color: #1C1916;
+    line-height: 1.2;
+    margin-bottom: 1.75rem;
+  }
+
+  /* ─── SURVEY (inside .research-panel) ───────────────────── */
+  .survey-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 2.5rem;
+    margin: 0 0 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(0,0,0,.08);
+  }
+  .survey-grid:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+  .survey-card.full-width { grid-column: 1 / -1; }
+  .q-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .13em;
+    color: #C9A84C;
+    margin-bottom: .55rem;
+  }
+  .q-text {
+    font-size: .875rem;
+    color: #1C1916;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+
+  /* bar chart rows */
+  .bar-row { margin-bottom: .8rem; }
+  .bar-row:last-child { margin-bottom: 0; }
+  .bar-label {
+    font-size: .8rem;
+    color: #3A3530;
+    margin-bottom: .3rem;
+    line-height: 1.4;
+  }
+  .bar-label small {
+    display: block;
+    font-size: .72rem;
+    color: #8A8178;
+    font-family: var(--mono);
+  }
+  .bar-track {
+    height: 5px;
+    background: #E5E1D8;
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .bar-fill {
+    height: 100%;
+    background: #C9A84C;
+    border-radius: 3px;
+  }
+  .bar-pct {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #8A8178;
+    margin-top: .25rem;
+  }
+
+  /* dot ratings */
+  .rating-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .85rem;
+  }
+  .rating-factor {
+    font-size: .8rem;
+    color: #3A3530;
+    margin-bottom: .35rem;
+  }
+  .dots { display: flex; gap: 5px; }
+  .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #C9A84C;
+  }
+  .dot.empty {
+    background: transparent;
+    border: 1.5px solid #C9A84C;
+    opacity: .35;
+  }
+
+  /* anxiety score */
+  .anxiety-score { text-align: center; padding: .25rem 0 .5rem; }
+  .score-number {
+    font-family: var(--serif);
+    font-size: 4rem;
+    color: #1C1916;
+    line-height: 1;
+  }
+  .score-sub {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #8A8178;
+    letter-spacing: .06em;
+    margin-top: .4rem;
+  }
+  .score-bar {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: .9rem;
+  }
+  .score-seg {
+    width: 28px;
+    height: 5px;
+    border-radius: 2px;
+    background: #C9A84C;
+  }
+  .score-seg.dim { background: #E5E1D8; }
+
+  /* story cards */
+  .story-card {
+    margin-bottom: .9rem;
+    font-size: .85rem;
+    font-style: italic;
+    color: #3A3530;
+    line-height: 1.65;
+  }
+  .story-card:last-child { margin-bottom: 0; }
+  .story-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .09em;
+    background: #1E3A28;
+    color: #C8E6D2;
+    padding: 3px 10px;
+    border-radius: 20px;
+    margin-top: .55rem;
+    font-style: normal;
+  }
+
+  /* ─── PRIMARY RESEARCH SYNTHESIS ────────────────────────── */
+  .research-synthesis {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 0;
+    margin: 1.25rem 0 0;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .synth-col {
+    padding: 1.25rem 1.4rem 1.4rem;
+  }
+  .synth-divider {
+    width: 1px;
+    background: var(--border);
+    margin: 1rem 0;
+  }
+  .synth-heading {
+    font-family: var(--mono);
+    font-size: 9.5px;
+    text-transform: uppercase;
+    letter-spacing: .13em;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    margin-bottom: .85rem;
+  }
+  .synth-heading svg {
+    width: 12px;
+    height: 12px;
+    stroke: var(--accent);
+    stroke-width: 2;
+    flex-shrink: 0;
+  }
+  .synth-heading--opp { color: var(--accent2); }
+  .synth-heading--opp svg { stroke: var(--accent2); }
+  .synth-list {
+    list-style: none;
+    margin: 0; padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+  }
+  .synth-list li {
+    font-size: .85rem;
+    color: var(--ink-soft);
+    line-height: 1.55;
+    display: flex;
+    align-items: flex-start;
+    gap: .6rem;
+  }
+  .synth-list li svg {
+    width: 13px;
+    height: 13px;
+    stroke: var(--accent);
+    stroke-width: 1.75;
+    flex-shrink: 0;
+    margin-top: .18em;
+    opacity: .75;
+  }
+  .synth-list--opp li svg { stroke: var(--accent2); }
+
+  @media (max-width: 640px) {
+    .research-synthesis {
+      grid-template-columns: 1fr;
+    }
+    .synth-divider {
+      width: auto;
+      height: 1px;
+      margin: 0 1.4rem;
+    }
+  }
+
+  /* ─── SECONDARY RESEARCH TABLE ───────────────────────────── */
+  .research-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    font-size: .85rem;
+  }
+  .research-table th {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: #8A8178;
+    text-align: left;
+    padding: .6rem .75rem .8rem;
+    border-bottom: 1px solid rgba(0,0,0,.12);
+  }
+  .research-table td {
+    padding: 1.25rem .75rem;
+    border-bottom: 1px solid rgba(0,0,0,.07);
+    color: #4A4540;
+    line-height: 1.6;
+    vertical-align: top;
+  }
+  .research-table tr:last-child td { border-bottom: none; }
+  .metric-cell { min-width: 130px; }
+  .metric-stat {
+    font-family: var(--serif);
+    font-size: 1.6rem;
+    color: #C9A84C;
+    line-height: 1;
+    display: block;
+  }
+  .metric-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #1C1916;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    display: block;
+    margin-top: .3rem;
+  }
+  .metric-sub {
+    font-size: .8rem;
+    color: #8A8178;
+    display: block;
+    margin-top: .2rem;
+  }
+  .opp-pill {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    padding: 4px 11px;
+    border-radius: 20px;
+    margin: 3px 2px;
+    line-height: 1.3;
+  }
+  .opp-pill.monetize {
+    background: #3D2D0E;
+    color: #F5E8C4;
+  }
+  .opp-pill.feature {
+    background: #1E3A28;
+    color: #C8E6D2;
+  }
+
+  .table-legend {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.25rem;
+    font-family: var(--mono);
+    font-size: 9.5px;
+    color: #8A8178;
+    margin-bottom: .75rem;
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  /* ─── CALLOUT ─────────────────────────────────────────────── */
+  .callout {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent2);
+    border-radius: var(--radius);
+    padding: 1.1rem 1.4rem;
+    margin: 1.75rem 0;
+    font-size: .9rem;
+    line-height: 1.7;
+    color: var(--ink);
+  }
+
+  /* ─── LEARNING CARDS ─────────────────────────────────────── */
+  .learning {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.4rem 1.6rem;
+    margin-bottom: 1rem;
+    transition: border-color var(--transition), background var(--transition);
+  }
+  .learning:hover {
+    border-color: var(--border-hi);
+    background: var(--surface2);
+  }
+  .learning-icon { font-size: 1.25rem; margin-bottom: .6rem; }
+  .learning h3 { margin-top: 0; font-size: .95rem; }
+  .learning p { margin: 0; font-size: .9rem; color: var(--mid); }
+
+  /* ─── DIVIDER ────────────────────────────────────────────── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 3.5rem 0;
+  }
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .divider-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* ─── PHONE MOCKUP ───────────────────────────────────────── */
+  .phone-row {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin: 2.5rem 0;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  .phone-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .75rem;
+  }
+  .phone-wrap img {
+    width: 220px;
+    border-radius: 28px;
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(242,241,234,.08);
+    transition: transform var(--transition), box-shadow var(--transition);
+    display: block;
+  }
+  .phone-wrap img:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0,0,0,.75), 0 0 0 1px rgba(242,241,234,.14);
+  }
+  .phone-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--mid);
+    text-align: center;
+  }
+
+  /* ─── SCREENS FLOW GRID ─────────────────────────────────── */
+  .screens-flow {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2.5rem 1.75rem;
+    margin: 2rem 0;
+  }
+  .screens-flow .phone-wrap img {
+    width: 100%;
+    border-radius: 36px;
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,.12),
+      inset 4px 0 12px rgba(14,14,16,.7);
+  }
+  .screen-group-label {
+    grid-column: 1 / -1;
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .13em;
+    color: var(--mid);
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: -.75rem;
+  }
+  .screen-group-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .phone-placeholder {
+    width: 100%;
+    aspect-ratio: 390 / 844;
+    background: var(--surface2);
+    border: 1px dashed rgba(242,241,234,.10);
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .phone-placeholder-text {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: var(--mid);
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    opacity: .5;
+  }
+  @media (max-width: 640px) {
+    .screens-flow { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1rem; }
+  }
+
+  /* ─── INTERACTIVE PHONE MOCKUP ──────────────────────────── */
+  .phone-mockup-outer {
+    width: 100%;
+    aspect-ratio: 390 / 844;
+    position: relative;
+    overflow: hidden;
+    border-radius: 28px;
+    box-shadow: var(--shadow-lg), 0 0 0 1px rgba(242,241,234,.08);
+  }
+  .phone-mockup-interactive {
+    width: 390px;
+    height: 844px;
+    background: #0f0f0f;
+    transform-origin: top left;
+    position: absolute;
+    top: 0; left: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    border-radius: 50px;
+  }
+  .pm-status {
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    flex-shrink: 0;
+  }
+  .pm-time {
+    font-size: 17px;
+    font-weight: 600;
+    color: white;
+    letter-spacing: -0.4px;
+  }
+  .pm-status-icons {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .pm-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+  .pm-back {
+    font-size: 26px;
+    color: white;
+    line-height: 1;
+    font-weight: 300;
+  }
+  .pm-skip-lbl {
+    font-size: 14px;
+    color: white;
+  }
+  .pm-body {
+    flex: 1;
+    padding: 16px 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    overflow: hidden;
+  }
+  .pm-header { display: flex; flex-direction: column; gap: 8px; }
+  .pm-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+    margin: 0;
+    line-height: 1.1;
+  }
+  .pm-subtitle {
+    font-size: 14px;
+    color: #8e8e93;
+    margin: 0;
+  }
+  .pm-progress {
+    display: flex;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .pm-prog-bar {
+    width: 80px;
+    height: 4px;
+    border-radius: 2px;
+  }
+  .pm-prog-bar.dim { background: #8e8e93; }
+  .pm-prog-bar.lit { background: #f5a623; }
+  .pm-sections { display: flex; flex-direction: column; gap: 28px; }
+  .pm-section { display: flex; flex-direction: column; gap: 12px; }
+  .pm-section-lbl { font-size: 14px; color: #8e8e93; }
+  .pm-pill-rows { display: flex; flex-direction: column; gap: 10px; }
+  .pm-pill-row { display: flex; gap: 8px; }
+  .pm-pill {
+    background: #262523;
+    border: 1.5px solid transparent;
+    border-radius: 15px;
+    height: 30px;
+    padding: 0 8px;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    transition: border-color 160ms ease, color 160ms ease;
+    white-space: nowrap;
+    font-family: inherit;
+    flex: 1;
+  }
+  .pm-pill.selected {
+    border-color: #F5A623;
+    color: #F5A623;
+  }
+  .pm-pill:hover:not(.selected) {
+    border-color: rgba(245,166,35,.3);
+  }
+  .pm-footer {
+    padding: 16px 24px 36px;
+    flex-shrink: 0;
+  }
+  .pm-save-btn {
+    width: 100%;
+    height: 52px;
+    background: #a16608;
+    border: none;
+    border-radius: 26px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* ─── TV FRAME & PHONE MOCKUPS ──────────────────────────── */
+  /*
+   * Phones render at Figma-native 393×852px inside a scaled container.
+   * All font sizes are exactly 14px (body) / 22px (heading) matching Figma.
+   * Scale = 300/393 ≈ 0.763 — outer clips the scaled inner.
+   */
+  .tv-frame {
+    background: #17171a;
+    border-radius: 16px;
+    padding: 2.25rem 2.5rem 3rem;
+    margin: 2rem 0;
+  }
+  .tv-frame-title {
+    font-family: var(--sans);
+    font-size: 2rem;
+    font-weight: 800;
+    color: #f5a623;
+    letter-spacing: -.03em;
+    line-height: 1;
+    margin: 0 0 2.25rem;
+  }
+  .pref-phones-row {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+  /* Clipping shell — sets the visible size */
+  .pref-phone-outer {
+    width: 300px;
+    height: 650px;
+    border-radius: 38px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px #8e8e93, 0 4px 10px rgba(255,255,255,.07), 0 24px 64px rgba(0,0,0,.95);
+    flex-shrink: 0;
+  }
+  /* Native-size phone — scaled down by transform */
+  .pref-phone-inner {
+    width: 393px;
+    height: 852px;
+    transform: scale(0.7634);
+    transform-origin: top left;
+    background: #0f0f0f;
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    color: #fff;
+  }
+  /* ─── MENU LIST FRAME ───────────────────────────────────── */
+  .menu-frame-body {
+    display: flex;
+    gap: 1.75rem;
+    align-items: center;
+  }
+  /* Small faded phone shell */
+  .menu-phone-outer-sm {
+    width: 175px;
+    height: 380px;
+    border-radius: 23px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px #8e8e93, 0 16px 40px rgba(0,0,0,.9);
+    opacity: 0.3;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+  .menu-phone-inner-sm {
+    width: 390px;
+    height: 844px;
+    transform: scale(0.449);
+    transform-origin: top left;
+    background: #0f0f0f;
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, 'Helvetica Neue', sans-serif;
+    color: #fff;
+    overflow: hidden;
+  }
+  /* Zoomed dish card spotlight */
+  .menu-zoomed-card {
+    flex-shrink: 0;
+    width: 268px;
+    background: #1c1c1e;
+    border-radius: 22px;
+    padding: 16px;
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    box-shadow: 0 12px 40px rgba(0,0,0,.75), 0 0 0 1px rgba(255,255,255,.1);
+    align-self: center;
+  }
+  .menu-zoomed-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 14px;
+    object-fit: cover;
+    flex-shrink: 0;
+    display: block;
+  }
+  /* Callout annotations */
+  .menu-callouts {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    align-self: center;
+  }
+  .menu-callout {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    padding-left: 1rem;
+    border-left: 2px solid rgba(245,166,35,.4);
+  }
+  .menu-callout-tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--accent);
+  }
+  .menu-callout p {
+    font-size: .9rem;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  @media (max-width: 700px) {
+    .tv-frame { padding: 1.25rem 1rem 1.75rem; }
+    .tv-frame-title { font-size: 1.5rem; margin-bottom: 1.5rem; }
+    .pref-phones-row { gap: 1rem; }
+    .pref-phone-outer { width: 200px; height: 433px; border-radius: 26px; }
+    .pref-phone-inner { transform: scale(0.509); }
+    .menu-frame-body { flex-wrap: wrap; }
+    .menu-phone-outer-sm { display: none; }
+    .menu-zoomed-card { width: 100%; }
+    .menu-callouts { align-self: auto; }
+  }
+
+  /* ─── SCROLL FADE ────────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    body { padding: 0 1.25rem 5rem; }
+    .survey-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+    .rating-grid { grid-template-columns: 1fr 1fr; }
+    .nav-links { display: none; }
+    .research-panel { padding: 1.5rem 1.25rem; }
+    .research-table { font-size: .78rem; }
+    .research-table th, .research-table td { padding: .75rem .5rem; }
+    .score-seg { width: 20px; }
+  }
+</style>
+</head>
+<body>
+<div id="progress-bar"></div>
+
+<nav id="main-nav">
+  <a class="nav-name" href="index.html.html" style="text-decoration:none;color:inherit;">Susan Wang</a>
+  <ul class="nav-links">
+    <li><a href="#section-problem">Problem</a></li>
+    <li><a href="#section-discover">Discover</a></li>
+    <li><a href="#section-define">Define</a></li>
+    <li><a href="#section-design">Design</a></li>
+    <li><a href="#section-learnings">Learnings</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<!-- ── HERO ─────────────────────────────────────────────── -->
+<div class="hero">
+  <div class="meta-row">
+    <div class="meta-item">
+      <div class="meta-label">Timeline</div>
+      <div class="meta-value">Jan – Mar 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Role</div>
+      <div class="meta-value">Solo UX Designer</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Tools</div>
+      <div class="meta-value">Figma · Claude Code · ChatGPT</div>
+    </div>
+    <div class="meta-item">
+      <div class="meta-label">Type</div>
+      <div class="meta-value"><span class="tag">Passion Project</span></div>
+    </div>
+  </div>
+
+  <h1>A Translated Menu to Order Food in an Informed and Confident Way</h1>
+
+  <p class="lede">After moving to the US, I noticed that most <strong>restaurant menus are text-only</strong> — no photos, no visual cues. Coming from a culture where visual menus are the norm, I quickly realised how disorienting it is to order <strong>without knowing what a dish actually looks like</strong>. That personal frustration became the starting point for this project.</p>
+</div>
+
+<!-- ── PROBLEM ───────────────────────────────────────────── -->
+<section id="section-problem">
+  <div class="section-label">Problem Statement</div>
+  <h2>"What even is this dish?"</h2>
+  <p>When international diners can't read or understand menu text, the entire ordering experience breaks down. Without visual references to bridge the language gap, they're left guessing — turning what should be a relaxing cultural experience into one filled with anxiety and decision fatigue.</p>
+
+  <div class="section-label" style="margin-top: 2.25rem;">Goal</div>
+  <p>The goal is to speed up their decision-making process and enable them to order with confidence. Transforming the anxious experience into a fast, clear, and easy one.</p>
+
+</section>
+
+<div class="divider"><div class="divider-dot"></div></div>
+
+<!-- ── DISCOVER ──────────────────────────────────────────── -->
+<section id="section-discover">
+  <div class="section-label">Discover</div>
+  <h2>Understanding the experience</h2>
+
+  <p>I surveyed international diners to validate the problem firsthand — mapping how they currently navigate unfamiliar menus and quantifying the emotional friction in the ordering experience.</p>
+
+  <div class="research-panel">
+    <div class="rp-eyebrow">Primary Research</div>
+    <div class="rp-title">Survey Findings</div>
+
+  <!-- Survey Q1 + Q2 -->
+  <div class="survey-grid">
+    <div class="survey-card">
+      <div class="q-label">Q1 — Navigation Methods</div>
+      <div class="q-text">When dining with a foreign menu, how do you navigate it?</div>
+      <div class="bar-row">
+        <div class="bar-label">Visual translation (Google Lens)</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+        <div class="bar-pct">100%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Photos on social / review apps</div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+        <div class="bar-pct">100%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Asking staff in common language</div>
+        <div class="bar-track"><div class="bar-fill" style="width:25%"></div></div>
+        <div class="bar-pct">25%</div>
+      </div>
+    </div>
+
+    <div class="survey-card">
+      <div class="q-label">Q2 — Importance of Information When Ordering</div>
+      <div class="q-text">Aside from the dish name, how important is each factor (1–5)?</div>
+      <div class="rating-grid">
+        <div class="rating-item">
+          <div class="rating-factor">A. Visual context</div>
+          <div class="dots">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>
+          </div>
+        </div>
+        <div class="rating-item">
+          <div class="rating-factor">B. Price transparency</div>
+          <div class="dots">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot empty"></div><div class="dot empty"></div>
+          </div>
+        </div>
+        <div class="rating-item">
+          <div class="rating-factor">C. Ingredient detail</div>
+          <div class="dots">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot empty"></div>
+          </div>
+        </div>
+        <div class="rating-item">
+          <div class="rating-factor">D. Dietary Safety</div>
+          <div class="dots">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot empty"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Survey Q3 + Q4 -->
+  <div class="survey-grid">
+    <div class="survey-card">
+      <div class="q-label">Q3 — Pain Points With Current Tools</div>
+      <div class="q-text">What frustrates you about existing translation tools?</div>
+      <div class="bar-row">
+        <div class="bar-label">Manual effort switching between apps
+          <small>e.g. Translate → Currency Converter</small>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+        <div class="bar-pct">80%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Visual clarity — name translated but no image</div>
+        <div class="bar-track"><div class="bar-fill" style="width:50%"></div></div>
+        <div class="bar-pct">50%</div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label">Missing local context on must-try dishes
+          <small>No sense of cultural significance</small>
+        </div>
+        <div class="bar-track"><div class="bar-fill" style="width:10%"></div></div>
+        <div class="bar-pct">10%</div>
+      </div>
+    </div>
+
+    <div class="survey-card">
+      <div class="q-label">Q4 — Surprise Ordering Stories</div>
+      <div class="q-text">Describe a time you were surprised by a dish</div>
+      <div class="story-card">
+        "Ordered liver sausage in Hong Kong — Caught off guard. A flavor description would have helped more than translation."
+        <div><span class="story-tag">Flavor Context Gap</span></div>
+      </div>
+      <div class="story-card">
+        "In Vietnam, expected cheese sauce, got sweet cheese power. An image and taste profile would have helped."
+        <div><span class="story-tag">Visual + Taste Transparency</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Survey Q5 -->
+  <div class="survey-grid">
+    <div class="survey-card full-width">
+      <div class="q-label">Q5 — Order Anxiety Score</div>
+      <div class="q-text">How much "order anxiety" when you can't read a menu? (1–10)</div>
+      <div class="anxiety-score">
+        <div class="score-number">8.0</div>
+        <div class="score-sub">avg. score &nbsp;·&nbsp; across 30 respondents</div>
+        <div class="score-bar">
+          <div class="score-seg"></div>
+          <div class="score-seg"></div>
+          <div class="score-seg"></div>
+          <div class="score-seg"></div>
+          <div class="score-seg"></div>
+          <div class="score-seg"></div>
+          <div class="score-seg"></div>
+          <div class="score-seg"></div>
+          <div class="score-seg dim"></div>
+          <div class="score-seg dim"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div><!-- /research-panel primary -->
+
+  <p style="margin-top: 1.75rem;">I looked at US tourism and consumer behavior data to understand business implications, user need and feature opportunities.</p>
+
+  <div class="research-panel" style="margin-top: 1rem;">
+    <div class="rp-eyebrow">Secondary Research</div>
+
+  <div class="table-legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#C9A84C"></div>
+      Monetization opportunity
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="background:#1E3A28"></div>
+      Feature opportunity
+    </div>
+  </div>
+
+  <table class="research-table">
+    <thead>
+      <tr>
+        <th>Metric</th>
+        <th>Business Implication</th>
+        <th>User Need</th>
+        <th>Opportunity</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="metric-cell">
+          <span class="metric-label">Income &amp; Stay</span>
+          <span class="metric-stat">$88K</span>
+          <span class="metric-label">avg. household income</span>
+          <span class="metric-sub" style="margin-top:.5rem">17.5 nights stay</span>
+        </td>
+        <td>Economically valuable segment<br><br>Dining is repeated behavior</td>
+        <td>Clarity over cheapest option<br><br>Confidence in decisions</td>
+        <td>
+          <span class="opp-pill monetize">14-day travel pass</span>
+          <span class="opp-pill monetize">30-day visitor premium</span>
+          <span class="opp-pill monetize">Freemium (limited scans)</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="metric-cell">
+          <span class="metric-label">Travel Style</span>
+          <span class="metric-stat">60%</span>
+          <span class="metric-label">travel alone</span>
+        </td>
+        <td>Tourism is highly independent</td>
+        <td>Dining decisions made alone</td>
+        <td>
+          <span class="opp-pill feature">Visual reference</span>
+          <span class="opp-pill feature">Flavor/dietary context</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="metric-cell">
+          <span class="metric-label">Trip Purpose</span>
+          <span class="metric-stat">57%</span>
+          <span class="metric-label">vacation travel</span>
+        </td>
+        <td>Vacation travelers eat out frequently</td>
+        <td>Explore new foods confidently</td>
+        <td>
+          <span class="opp-pill feature">Item description</span>
+          <span class="opp-pill feature">Preference-based menu highlights</span>
+        </td>
+      </tr>
+      <tr>
+        <td class="metric-cell">
+          <span class="metric-label">Tipping Anxiety</span>
+          <span class="metric-stat">79%</span>
+          <span class="metric-label">feel pressure to tip</span>
+        </td>
+        <td>Tipping culture impacts the overall trip experience</td>
+        <td>More informed, less stressed</td>
+        <td>
+          <span class="opp-pill feature">Tax &amp; Tip explanation &amp; Preview</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  </div><!-- /research-panel secondary -->
+
+  <p style="margin-top: 1.75rem;">Based on primary and secondary research, users will benefit from a single tool that replaces the multi-app workflow. It would reduce order anxiety by allowing users to translate the text into their familiar language. The experience would become much easier with dish images as visual reference, dietary and ingredients context, and tax &amp; tip explanation.</p>
+
+  <div class="subsection-label" style="margin-top:2.25rem;">Competitive Analysis</div>
+  <h3 style="font-family:var(--serif);font-size:1.6rem;font-weight:400;margin:0.5rem 0 1rem;">What's already out there</h3>
+
+  <p>Competitive analysis benchmarks existing solutions to understand what the market already <strong>does well</strong> and <strong>where it falls short</strong>. By mapping features, accessibility, and user flows across key players, I was able to <strong>identify unmet needs and whitespace that informed the product direction</strong>. This analysis ensured the design would offer something meaningfully different — not just another translation tool.</p>
+
+  <div class="research-panel" style="margin-top: 1rem;">
+    <div class="rp-eyebrow">Competitive Analysis</div>
+    <div class="rp-title">MenuGuide · What To Eat · Google Lens</div>
+
+    <table class="research-table">
+      <thead>
+        <tr>
+          <th>Tool</th>
+          <th>Features</th>
+          <th>Accessibility</th>
+          <th>User Flow</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="metric-cell">
+            <span style="font-family:var(--serif); font-size:1.1rem; color:#1C1916; display:block; font-weight:500;">MenuGuide</span>
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:.4rem;">
+              <span style="color:#5A9B6A;">+ Support scanning/uploading</span>
+              <span style="color:#5A9B6A;">+ Image-first in card-based interface</span>
+              <span style="color:#B85C3A;">− No tipping info</span>
+              <span style="color:#B85C3A;">− No preference profile</span>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:.4rem;">
+              <span style="color:#5A9B6A;">+ Over 100 languages</span>
+              <span style="color:#5A9B6A;">+ Easy to find key information</span>
+              <span style="color:#5A9B6A;">+ Clear hierarchy</span>
+            </div>
+          </td>
+          <td style="color:#5A9B6A;">A guided end-to-end flow — scan or upload a menu, browse translated dish details, add items to a cart, and place the order via voice on a summary page with pricing.</td>
+        </tr>
+        <tr>
+          <td class="metric-cell">
+            <span style="font-family:var(--serif); font-size:1.1rem; color:#1C1916; display:block; font-weight:500;">What To Eat</span>
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:.4rem;">
+              <span style="color:#B85C3A;">− Only support uploading</span>
+              <span style="color:#B85C3A;">− No flavor/ingredients context</span>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:.4rem;">
+              <span style="color:#B85C3A;">− Only 13 languages</span>
+              <span style="color:#B85C3A;">− Lacks visual hierarchy</span>
+            </div>
+          </td>
+          <td style="color:#B85C3A;">− Linear scan-to-translate flow, no contextual depth.</td>
+        </tr>
+        <tr>
+          <td class="metric-cell">
+            <span style="font-family:var(--serif); font-size:1.1rem; color:#1C1916; display:block; font-weight:500;">Google Lens</span>
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:.4rem;">
+              <span style="color:#5A9B6A;">+ Instant overlay that replaces on the physical menu</span>
+              <span style="color:#B85C3A;">− No contextual description</span>
+              <span style="color:#B85C3A;">− Lacks currency conversion</span>
+            </div>
+          </td>
+          <td>
+            <div style="display:flex; flex-direction:column; gap:.4rem;">
+              <span style="color:#5A9B6A;">+ Unrivaled language support (130+)</span>
+            </div>
+          </td>
+          <td style="color:#B85C3A;">− Finding specific dish details requires clicking out to a Google search.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="margin-top: 1.5rem; padding: 1.25rem 1.5rem; border-left: 3px solid #C9A84C; background: var(--surface2); border-radius: 0 6px 6px 0;">
+    <div style="font-family:var(--mono); font-size:9px; text-transform:uppercase; letter-spacing:.12em; color:#C9A84C; margin-bottom:.5rem;">Gap</div>
+    <p style="margin:0; color:var(--ink); line-height:1.7;">No existing tool combines <span style="text-decoration:underline; text-decoration-color:#C9A84C; text-underline-offset:3px;">image-first menu translation, dietary and flavor context, preference-based menu highlights, and tipping guidance in a single flow</span> — leaving international diners to piece together information across multiple apps at the moment they need clarity most.</p>
+  </div>
+
+</section>
+
+<div class="divider"><div class="divider-dot"></div></div>
+
+<!-- ── DEFINE ────────────────────────────────────────────── -->
+<section id="section-define">
+  <div class="section-label">Define</div>
+  <h2>Who are we designing for?</h2>
+
+  <h3 style="margin-top:0">Customer segment</h3>
+  <p>International visitors from non-English speaking regions with mid to high income who stay in the US for 15-30 days. They either travel alone or with partners. The primary users come to the US for vacation purposes.</p>
+
+  <h3>Potential features</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:.75rem; margin-top:1rem;">
+    <div style="background:var(--surface); border:1px solid var(--border-hi); border-radius:8px; padding:1.1rem 1.25rem;">
+      <div style="font-family:var(--mono); font-size:10px; color:#C9A84C; letter-spacing:.08em; margin-bottom:.5rem;">01</div>
+      <div style="font-size:.95rem; color:var(--ink); font-weight:500;">Image-first interface</div>
+    </div>
+    <div style="background:var(--surface); border:1px solid var(--border-hi); border-radius:8px; padding:1.1rem 1.25rem;">
+      <div style="font-family:var(--mono); font-size:10px; color:#C9A84C; letter-spacing:.08em; margin-bottom:.5rem;">02</div>
+      <div style="font-size:.95rem; color:var(--ink); font-weight:500;">Inline ingredients, dietary &amp; flavor context</div>
+    </div>
+    <div style="background:var(--surface); border:1px solid var(--border-hi); border-radius:8px; padding:1.1rem 1.25rem;">
+      <div style="font-family:var(--mono); font-size:10px; color:#C9A84C; letter-spacing:.08em; margin-bottom:.5rem;">03</div>
+      <div style="font-size:.95rem; color:var(--ink); font-weight:500;">Preference-based menu highlights</div>
+    </div>
+    <div style="background:var(--surface); border:1px solid var(--border-hi); border-radius:8px; padding:1.1rem 1.25rem;">
+      <div style="font-family:var(--mono); font-size:10px; color:#C9A84C; letter-spacing:.08em; margin-bottom:.5rem;">04</div>
+      <div style="font-size:.95rem; color:var(--ink); font-weight:500;">Tax &amp; tip explanation &amp; preview</div>
+    </div>
+  </div>
+
+</section>
+
+<div class="divider"><div class="divider-dot"></div></div>
+
+<!-- ── DESIGN ─────────────────────────────────────────────── -->
+<section id="section-design">
+  <div class="section-label">Design</div>
+  <h2>The main user flow</h2>
+  <p>Every screen was designed to reduce ordering anxiety step by step — from setting up your preferences to selecting dishes and placing a confident order.</p>
+
+  <div style="display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem;">
+    <img src="Case study 2 (assets)/onboarding.png" alt="Onboarding" style="width:100%;border-radius:12px;">
+    <img src="Case study 2 (assets)/Menu list.png" alt="Menu List" style="width:100%;border-radius:12px;">
+    <img src="Case study 2 (assets)/Dish detail.png" alt="Dish Detail" style="width:100%;border-radius:12px;">
+    <img src="Case study 2 (assets)/Order.png" alt="Order" style="width:100%;border-radius:12px;">
+    <div style="width:100%;aspect-ratio:4971/2700;border-radius:12px;overflow:hidden;">
+      <img src="Case study 2 (assets)/All screens.png" alt="All Screens" style="width:100%;height:100%;object-fit:contain;">
+    </div>
+  </div>
+
+</section>
+
+<div class="divider"><div class="divider-dot"></div></div>
+
+<!-- ── LEARNINGS ──────────────────────────────────────────── -->
+<section id="section-learnings">
+  <div class="section-label">Learnings</div>
+  <h2>What I learned</h2>
+
+  <div class="learning">
+    <div class="learning-icon">💡</div>
+    <h3>AI tools are helpful, but a designer's judgement is essential.</h3>
+    <p>Throughout the project, I used AI tools to review survey questions, brainstorm feature opportunities, and explore visual directions. They work best as a thought partner, but understanding the full context, connecting all the pieces, and making the right call is still the designer's job.</p>
+  </div>
+  <div class="learning">
+    <div class="learning-icon">💡</div>
+    <h3>Business thinking needs to be part of the process from the start.</h3>
+    <p>I grounded decisions in business context throughout by understanding what metrics actually signal and how design choices connect to real outcomes. Good design doesn't just solve user problems; it has to serve the business too.</p>
+  </div>
+</section>
+
+<script>
+  // Feather icons
+  feather.replace();
+
+  // Interactive pill toggle
+  document.querySelectorAll('.pm-pill').forEach(pill => {
+    pill.addEventListener('click', () => pill.classList.toggle('selected'));
+  });
+
+  // Scale phone mockup to fit its container
+  const pmOuter = document.getElementById('pm-outer');
+  const pmInner = document.getElementById('pm-inner');
+  if (pmOuter && pmInner) {
+    const scalePhone = () => {
+      pmInner.style.transform = `scale(${pmOuter.offsetWidth / 390})`;
+    };
+    new ResizeObserver(scalePhone).observe(pmOuter);
+    scalePhone();
+  }
+
+  // Reading progress bar
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const max = document.body.scrollHeight - window.innerHeight;
+    bar.style.width = Math.min(100, (window.scrollY / max) * 100) + '%';
+
+    // Nav scroll indicator
+    const nav = document.getElementById('main-nav');
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+
+    // Active nav link
+    const sections = document.querySelectorAll('section[id]');
+    const links = document.querySelectorAll('.nav-links a');
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    links.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  });
+
+  // Scroll-reveal for sections
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('section').forEach(s => observer.observe(s));
+</script>
+</body>
+</html>

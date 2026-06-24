@@ -1,0 +1,344 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Susan Wang — UX Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0E0E10;
+    --surface:   #17171A;
+    --surface2:  #1F1F24;
+    --ink:       #F2F1EA;
+    --ink-soft:  #C9C7BF;
+    --mid:       #7A786F;
+    --accent:    #E8714A;
+    --border:    rgba(242,241,234,.10);
+    --border-hi: rgba(242,241,234,.18);
+    --serif:     'Instrument Serif', Georgia, serif;
+    --sans:      'DM Sans', sans-serif;
+    --mono:      'DM Mono', monospace;
+    --radius:    6px;
+    --shadow-md: 0 4px 20px rgba(0,0,0,.55);
+    --shadow-lg: 0 12px 40px rgba(0,0,0,.65);
+    --transition: 220ms ease;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 2rem 8rem;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 0;
+    margin-bottom: 5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-name {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  .nav-links a:hover { color: var(--ink); }
+
+  /* INTRO */
+  .intro {
+    margin-bottom: 4rem;
+  }
+  .intro-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1rem;
+  }
+  .intro h1 {
+    font-family: var(--serif);
+    font-size: 2.6rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 1rem;
+    max-width: 600px;
+  }
+  .intro h1 .highlight {
+    font-style: italic;
+  }
+  .intro p .highlight {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1.5px;
+  }
+  .intro p {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1.5rem;
+  }
+
+  /* CARDS */
+  .cards {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+  }
+  .card:hover {
+    border-color: var(--border-hi);
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-3px);
+  }
+
+  .card-thumbnail {
+    width: 100%;
+    aspect-ratio: 16 / 7;
+    overflow: hidden;
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+  }
+  .card-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+    transition: transform 400ms ease;
+  }
+  .card:hover .card-thumbnail img {
+    transform: scale(1.02);
+  }
+
+  .card-body {
+    padding: 1.75rem 2rem;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.9rem;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(232,113,74,.1);
+    border: 1px solid rgba(232,113,74,.25);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+  .card-timeline {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mid);
+  }
+
+  .card h2 {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 0.65rem;
+  }
+  .card p {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+  }
+  .card-role {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mid);
+  }
+  .card-role span {
+    color: var(--ink-soft);
+  }
+  .card-cta {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: gap var(--transition);
+  }
+  .card:hover .card-cta { gap: 9px; }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .intro h1 { font-size: 1.9rem; }
+    .card-body { padding: 1.25rem 1.25rem; }
+  }
+
+  /* ─── Case Study 2 thumbnail ─────────────────────────────── */
+  .cs2-thumb {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    overflow: hidden;
+  }
+  .cs2-thumb-base {
+    position: absolute;
+    inset: 0;
+  }
+  .cs2-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    opacity: 0.10;
+  }
+  .cs2-thumb-blur {
+    position: absolute;
+    left: 20%;
+    top: -10%;
+    width: 61%;
+    height: 120%;
+    background: linear-gradient(90deg, #E4DED5 0%, #E4DED5 100%);
+    filter: blur(60px);
+    border-radius: 50%;
+  }
+  .cs2-phone-img {
+    position: absolute;
+    left: 10%;
+    top: -8%;
+    width: 62%;
+    height: auto;
+    transition: transform 400ms ease;
+  }
+  .card:hover .cs2-phone-img {
+    transform: scale(1.03) translateY(-4px);
+  }</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="#">Susan Wang</a>
+  <ul class="nav-links">
+    <li><a href="#">Work</a></li>
+    <li><a href="about.html">About</a></li>
+  </ul>
+</nav>
+
+<div class="intro">
+<h1>UX/Product Designer focused on <span class="highlight">clear, intuitive</span> experiences.</h1>
+  <p>I design products that are <span class="highlight">useful</span> and <span class="highlight">delightful</span>.</p>
+</div>
+
+<div class="section-label">Selected Work</div>
+
+<div class="cards">
+
+  <!-- Case Study 2 -->
+  <a class="card" href="casestudy2.html">
+    <div class="card-thumbnail">
+      <img src="Shot.png" alt="Case Study 2 thumbnail">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="tag">Passion Project</span>
+        <span class="card-timeline">Jan – Mar 2026</span>
+      </div>
+      <h2>A Translated Menu to Order Food in an Informed and Confident Way</h2>
+      <p>Designed a mobile app for international diners to navigate English menus with visual, flavor, and dietary context — making unfamiliar food easier to order with confidence.</p>
+      <div class="card-footer">
+        <div class="card-role">Role &nbsp;<span>Solo UX Designer</span></div>
+        <div class="card-role">Tools &nbsp;<span>Figma · Claude Code · ChatGPT</span></div>
+        <div class="card-cta">View case study &rarr;</div>
+      </div>
+    </div>
+  </a>
+
+  <!-- Case Study 1 -->
+  <a class="card" href="casestudy1_polished.html">
+    <div class="card-thumbnail">
+      <img src="Thumbnail 1.png" alt="Case Study 1 thumbnail">
+    </div>
+    <div class="card-body">
+      <div class="card-meta">
+        <span class="tag">Passion Project</span>
+        <span class="card-timeline">Jun – Aug 2025</span>
+      </div>
+      <h2>A Mini Program to Register for Events in a Clear and Easy Way</h2>
+      <p>Designed a WeChat mini program for an English-speaking club, replacing a confusing group-chat RSVP flow with a dedicated registration experience.</p>
+      <div class="card-footer">
+        <div class="card-role">Role &nbsp;<span>Solo UX Designer</span></div>
+        <div class="card-role">Tools &nbsp;<span>Figma · FigJam · Miro</span></div>
+        <div class="card-cta">View case study &rarr;</div>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+</body>
+</html>

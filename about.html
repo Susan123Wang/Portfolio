@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Susan Wang — About</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0E0E10;
+    --surface:   #17171A;
+    --surface2:  #1F1F24;
+    --ink:       #F2F1EA;
+    --ink-soft:  #C9C7BF;
+    --mid:       #7A786F;
+    --accent:    #E8714A;
+    --border:    rgba(242,241,234,.10);
+    --border-hi: rgba(242,241,234,.18);
+    --serif:     'Instrument Serif', Georgia, serif;
+    --sans:      'DM Sans', sans-serif;
+    --mono:      'DM Mono', monospace;
+    --radius:    6px;
+    --shadow-md: 0 4px 20px rgba(0,0,0,.55);
+    --transition: 220ms ease;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 2rem 8rem;
+  }
+
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 0;
+    margin-bottom: 5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-name {
+    font-family: var(--serif);
+    font-size: 1.05rem;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--mid);
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a.active { color: var(--ink); }
+
+  /* INTRO */
+  .intro {
+    margin-bottom: 5rem;
+  }
+  .intro h1 {
+    font-family: var(--serif);
+    font-size: 2.6rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 1.25rem;
+    max-width: 600px;
+  }
+  .intro h1 em {
+    font-style: italic;
+  }
+  .intro p {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.7;
+    max-width: 520px;
+  }
+
+  /* SECTION */
+  .section {
+    margin-bottom: 4rem;
+  }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 1.5rem;
+  }
+
+  /* BIO */
+  .bio p {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    line-height: 1.8;
+    max-width: 580px;
+    margin-bottom: 1rem;
+  }
+  .bio p:last-child { margin-bottom: 0; }
+
+  /* EXPERIENCE */
+  .experience-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .experience-item {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .experience-item:first-child {
+    border-top: 1px solid var(--border);
+  }
+  .experience-period {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--mid);
+    padding-top: 3px;
+  }
+  .experience-details h3 {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+  .experience-details .company {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--accent);
+    margin-bottom: 0.6rem;
+  }
+  .experience-details p {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+    line-height: 1.65;
+  }
+
+  /* SKILLS */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  .skill-group h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--mid);
+    margin-bottom: 0.6rem;
+  }
+  .skill-group ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .skill-group li {
+    font-size: 0.875rem;
+    color: var(--ink-soft);
+  }
+
+  /* CONTACT */
+  .contact-links {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .contact-links a {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--ink-soft);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color var(--transition);
+  }
+  .contact-links a:hover { color: var(--accent); }
+  .contact-links a::after {
+    content: '↗';
+    font-style: normal;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    .intro h1 { font-size: 1.9rem; }
+    .experience-item {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-name" href="homepage.html">Susan Wang</a>
+  <ul class="nav-links">
+    <li><a href="index.html.html">Work</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+  </ul>
+</nav>
+
+<div class="intro">
+  <h1>Designer, thinker, <em>life-long</em> learner.</h1>
+  <p>I'm a UX/Product designer based in Seattle. I care about the connection between people and technology, aiming to make it human and meaningful.</p>
+</div>
+
+<div class="section bio">
+  <div class="section-label">About</div>
+  <p>Currently, I am a graduate student at University of Washington studying User Experience, something that I always care about deeply. Recently, I am interested in exploring how AI is shaping the way people work and live, particularly in design.</p>
+  <p>Outside of work, I like taking long walks in nature, reading short stories on <em>Modern Love</em> (The New York Times' column) and playing with cats.</p>
+</div>
+
+
+<div class="section">
+  <div class="section-label">Skills</div>
+  <div class="skills-grid">
+    <div class="skill-group">
+      <h4>Design</h4>
+      <ul>
+        <li>UI/UX</li>
+        <li>Wireframing</li>
+        <li>Prototyping</li>
+        <li>Design system</li>
+        <li>Product thinking</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Research</h4>
+      <ul>
+        <li>User persona</li>
+        <li>User journey</li>
+        <li>Usability testing</li>
+        <li>Qualitative research</li>
+        <li>Competitive analysis</li>
+      </ul>
+    </div>
+    <div class="skill-group">
+      <h4>Tools</h4>
+      <ul>
+        <li>Figma</li>
+        <li>FigJam</li>
+        <li>Claude Code</li>
+        <li>Miro</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Contact</div>
+  <div class="contact-links">
+    <a href="https://www.linkedin.com/in/susan-wang-4469731ab/" target="_blank">LinkedIn</a>
+  </div>
+</div>
+
+</body>
+</html>
